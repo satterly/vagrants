@@ -1,13 +1,15 @@
-node default {
-
-	yumrepo { 'nginx-repo':
-		baseurl  => 'http://nginx.org/packages/rhel/6/x86_64/',
-		gpgcheck => 0
-	}
-	package { 'nginx': require => Yumrepo['nginx-repo'] }
-	service { 'nginx': }
+class yum {
 
 	$repo = 'https://s3-eu-west-1.amazonaws.com/gnl-core-infra-yumrepo-eu-west-1'
+
+	yumrepo { 'frontend':
+		descr           => 'Frontend Repository',
+		baseurl         => "${repo}/devstack/frontend/el6/\$basearch",
+		enabled         => 1,
+		gpgcheck        => 0,
+		priority        => 1,
+		metadata_expire => 300
+	}
 
 	yumrepo { 'local':
 		descr           => 'Guardian Local Repository',
@@ -17,6 +19,45 @@ node default {
 		priority        => 2,
 		metadata_expire => 300
 	}
+
+	yumrepo { 'nginx':
+		descr           => 'NGINX Repository Mirror',
+		baseurl         => "${repo}/nginx/centos/6/\$basearch",
+		enabled         => 1,
+		gpgcheck        => 0,
+		priority        => 3,
+		metadata_expire => 300
+	}
+
+	yumrepo { 'epel':
+		descr           => 'EPEL Repository Mirror',
+		baseurl         => "${repo}/epel/6/\$basearch",
+		enabled         => 1,
+		gpgcheck        => 0,
+		priority        => 4,
+		metadata_expire => 300
+	}
+}
+
+class vagrant {
+
+	exec { '/sbin/iptables --flush': }
+
+	package { 'cronie': ensure => latest; }
+
+	site::sudo::entry { 'vagrant':
+		sudo_user      => vagrant,
+		cmd_alias_name => 'VAGRANT',
+		cmd_list       => ['ALL'],
+		sudoexec       => true,
+		defaults       => ['!logfile', '!requiretty', 'syslog_goodpri=debug']
+	}
+}
+
+class frontend {
+
+	package { 'nginx': }
+	service { 'nginx': }
 
 	# class { 'ganglia::client':
 		# aws_access_key  => '022QF06E7MXBSAMPLE',
@@ -40,4 +81,13 @@ node default {
 		logfile         => '/var/log/nginx/access.log',
 		gmetric_options => '-c /var/lib/ganglia/gmond-cloud.conf'
 	}
+}
+
+node default {
+
+	stage { 'preinstall': } -> Stage[main] -> stage { 'late': }
+
+	class { yum: stage => 'preinstall' }
+	class { vagrant: }
+	class { frontend: }
 }

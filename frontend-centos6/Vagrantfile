@@ -16,7 +16,8 @@ Vagrant::Config.run do |config|
     :facter => {
       "role"               => "frontend-front",
       "int_service_domain" => "gudev.gnl",
-      "ec2_instance_id"    => "i-000000"
+      "ec2_instance_id"    => "i-000000",
+      "ec2_public_ipv4"    => "10.1.1.1"
     },
     :options => [ 
       "--debug"
