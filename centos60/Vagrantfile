@@ -1,0 +1,19 @@
+Vagrant::Config.run do |config|
+
+  config.vm.box = "centos60"
+  # config.vm.boot_mode = :gui
+  # config.vbguest.auto_update = true
+
+  # config.vm.network :hostonly, "192.168.33.10"
+  # config.vm.network :bridged
+  # config.vm.forward_port 8649, 8650 
+
+  # config.vm.share_folder "v-data", "/vagrant_data", "../data"
+
+  config.vm.provision :puppet, :facter => { "ec2_instance_id" => "i-000000" }, :options => ["--debug"] do |puppet|
+    puppet.manifests_path = "."
+    puppet.manifest_file  = "site.pp"
+    puppet.module_path    = "modules"
+  end
+
+end
