@@ -14,10 +14,11 @@ Vagrant::Config.run do |config|
 
   config.vm.provision :puppet,
     :facter => {
-      "role"               => "frontend-front",
-      "int_service_domain" => "gudev.gnl",
-      "ec2_instance_id"    => "i-000000",
-      "ec2_public_ipv4"    => "10.1.1.1"
+      "role"                            => "frontend-front",
+      "int_service_domain"              => "gudev.gnl",
+      "ec2_instance_id"                 => "i-000000",
+      "ec2_public_ipv4"                 => "10.1.1.1",
+      "ec2_placement_availability_zone" => "eu-west-1a"
     },
     :options => [ 
       "--debug"
