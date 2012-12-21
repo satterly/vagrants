@@ -1,0 +1,13 @@
+#############################################################
+################### OFFICIAL UBUNTU REPOS ###################
+#############################################################
+
+###### Ubuntu Main Repos
+deb ftp://archive.ubuntu.com/ubuntu/ precise main
+#deb-src ftp://gb.archive.ubuntu.com/ubuntu/ precise main
+
+###### Ubuntu Update Repos
+deb ftp://archive.ubuntu.com/ubuntu/ precise-security main
+deb ftp://archive.ubuntu.com/ubuntu/ precise-updates main
+#deb-src ftp://gb.archive.ubuntu.com/ubuntu/ precise-security main
+#deb-src ftp://gb.archive.ubuntu.com/ubuntu/ precise-updates main

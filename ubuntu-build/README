@@ -1,0 +1,33 @@
+
+# Ganglia
+
+git clone -b debian/gmond-only git://github.com/satterly/monitor-core.git
+
+cd monitor-core
+./bootstrap
+fakeroot ./debian/rules binary
+sudo dpkg -i ../*.deb
+
+# start again with clean slate...
+sudo dpkg -P gmetad ganglia-monitor ganglia-monitor-python ganglia-webfrontend libganglia1 libganglia1-dev
+make distclean
+
+
+# Host sFlow
+
+sudo apt-get install subversion
+mkdir host-sflow
+svn co https://host-sflow.svn.sourceforge.net/svnroot/host-sflow/trunk host-sflow
+
+cd src/json
+make
+cd ..
+cd src/sflow
+make
+cd ..
+sudo make install
+
+sudo vi /etc/hsflowd.conf
+/usr/sbin/hsflowd
+sudo service hsflowd start
+
