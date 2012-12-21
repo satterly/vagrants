@@ -1,7 +1,7 @@
 Vagrant::Config.run do |config|
 
-  config.vm.box = "centos55"
-  # config.vm.box_url= ""
+  config.vm.box = "centos56"
+  config.vm.box_url= "http://yum.mnxsolutions.com/vagrant/centos_56_32.box"
   # config.vm.boot_mode = :gui
 
   config.vbguest.auto_update = false
@@ -15,7 +15,7 @@ Vagrant::Config.run do |config|
   config.vm.provision :puppet,
     :facter => {
       "stage" => "PROD",
-      "role" => "respub"
+      "role"  => "respub"
      }, :options => ["--debug"] do |puppet|
     puppet.manifests_path = "."
     puppet.manifest_file  = "site.pp"
