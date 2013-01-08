@@ -30,6 +30,24 @@ class yum {
 	}
 }
 
+class preinstall {
+
+	file { '/etc/sysconfig/clock':
+		content => 'ZONE="Europe/London"'
+	}
+
+	file { '/etc/localtime':
+		ensure => 'link',
+		target => '/usr/share/zoneinfo/Europe/London'
+	}
+
+	exec { '/usr/sbin/ntpdate pool.ntp.org':
+		require => [ File['/etc/sysconfig/clock'], File['/etc/localtime'] ]
+	}
+
+	exec { '/sbin/iptables --flush': }
+}
+
 class monitoring {
 
 	# class { 'fitb':
@@ -43,8 +61,9 @@ class monitoring {
 
 node default {
 
-	stage { 'preinstall': } -> Stage[main] -> stage { 'late': }
+	stage { 'start': } -> Stage[main] -> stage { 'end': }
 
-	class { yum: stage => 'preinstall' }
+	class { yum: stage => 'start' }
+	class { preinstall: stage => 'start' }
 	class { monitoring: }
 }
