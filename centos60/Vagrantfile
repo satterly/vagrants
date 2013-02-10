@@ -1,6 +1,6 @@
 Vagrant::Config.run do |config|
 
-  config.vm.box = "centos60"
+  config.vm.box = "centos6"
   # config.vm.boot_mode = :gui
   # config.vbguest.auto_update = true
 
@@ -10,10 +10,10 @@ Vagrant::Config.run do |config|
 
   # config.vm.share_folder "v-data", "/vagrant_data", "../data"
 
-  config.vm.provision :puppet, :facter => { "ec2_instance_id" => "i-000000" }, :options => ["--debug"] do |puppet|
-    puppet.manifests_path = "."
-    puppet.manifest_file  = "site.pp"
-    puppet.module_path    = "modules"
-  end
+#  config.vm.provision :puppet, :facter => { "ec2_instance_id" => "i-000000" }, :options => ["--debug"] do |puppet|
+#    puppet.manifests_path = "."
+#    puppet.manifest_file  = "site.pp"
+#    puppet.module_path    = "modules"
+#  end
 
 end
