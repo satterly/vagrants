@@ -1,17 +1,22 @@
-Vagrant::Config.run do |config|
+
+Vagrant.configure("2") do |config|
 
   config.vm.box = "precise64"
-  # config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-  # config.vm.boot_mode = :gui
-  config.vm.customize ["modifyvm", :id, "--memory", 1024]
 
-  # config.vbguest.auto_update = false
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # config.vm.network :forwarded_port, guest: 80, host: 8080
 
-  config.vm.network :hostonly, "10.0.5.10"
-  config.vm.network :bridged, :bridge => 'en1: Wi-Fi (AirPort)'
-  # config.vm.forward_port 80, 8080
+  config.vm.network :private_network, ip: "172.16.0.2"
+  # config.vm.network :public_network
 
-  config.vm.share_folder "v-data", "/vagrant_data", "../data"
+  # Give the VM more memory.
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "1512"]
+  end
+
+  config.vm.synced_folder "../data", "/vagrant_data"
 
   config.vm.provision :shell, :path => "setup.sh"
 
