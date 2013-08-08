@@ -17,7 +17,8 @@ echo SERVICE_TOKEN=tokentoken >> localrc
 #HEAT_BRANCH=master
 
 #ENABLED_SERVICES+=,heat,h-api,h-api-cfn,h-api-cw,h-eng
-echo IMAGE_URLS+=",http://fedorapeople.org/groups/heat/prebuilt-jeos-images/F17-i386-cfntools.qcow2,http://fedorapeople.org/groups/heat/prebuilt-jeos-images/F17-x86_64-cfntools.qcow2" >> localrc
+# echo IMAGE_URLS+=",http://fedorapeople.org/groups/heat/prebuilt-jeos-images/F17-i386-cfntools.qcow2,http://fedorapeople.org/groups/heat/prebuilt-jeos-images/F17-x86_64-cfntools.qcow2" >> localrc
+echo IMAGE_URLS+=",http://fedorapeople.org/groups/heat/prebuilt-jeos-images/F18-i386-cfntools.qcow2" >> localrc
 
 # Network configuration. HOST_IP should be the same as the IP you used
 # for the private network in your Vagrantfile. The combination of
@@ -28,5 +29,8 @@ echo HOST_IP_IFACE=eth1 >>localrc
 echo FLAT_INTERFACE=br100 >>localrc
 echo PUBLIC_INTERFACE=eth1 >> localrc
 echo FLOATING_RANGE=172.16.0.224/27 >> localrc
+
+echo LOGFILE=stack.sh.log >> localrc
+echo SCREEN_LOGDIR=$DEST/logs/screen >> localrc
 
 ./stack.sh
