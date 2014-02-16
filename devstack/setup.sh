@@ -33,4 +33,6 @@ echo FLOATING_RANGE=172.16.0.224/27 >> localrc
 echo LOGFILE=stack.sh.log >> localrc
 echo SCREEN_LOGDIR=$DEST/logs/screen >> localrc
 
-./stack.sh
+./tools/create-stack-user.sh
+sudo su - stack "cd ~/vagrant/devstack && /stack.sh"
+# ./stack.sh
