@@ -6,7 +6,6 @@ echo "Install build system for Ganglia with Riemann support"
 
 apt-get -y clean
 apt-get -y update
-apt-get -y install language-pack-en
 apt-get -y install git curl wget autoconf automake libtool
 apt-get -y install libapr1-dev libconfuse-dev librrd-dev
 apt-get -y install protobuf-compiler protobuf-c-compiler libprotobuf-c0-dev
