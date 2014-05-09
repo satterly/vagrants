@@ -1,6 +1,6 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
-#set -x
+set -x
 
 echo "Install build system for Ganglia with Riemann support"
 
@@ -16,13 +16,31 @@ apt-get -y install libcurl4-openssl-dev
 
 wget http://concurrencykit.org/releases/ck-0.3.5.tar.gz
 tar zxvf ck*.tar.gz
-cd ck-0.3.5 && ./configure && make && sudo make install
+pushd ck-0.3.5 && ./configure && make && sudo make install
+popd
 
-apt-get -y install openjdk-7-jre
-wget -q http://aphyr.com/riemann/riemann-0.2.4.tar.bz2
+git clone https://github.com/ganglia/monitor-core.git
+pushd monitor-core
+./bootstrap
+./configure --with-gmetad --with-riemann
+make
+sudo make install
+popd
+
+apt-get -y install openjdk-7-jre python-pip
+pushd /opt
+wget -q http://aphyr.com/riemann/riemann-0.2.5.tar.bz2
 tar xvfj riemann-*.tar.bz2
 cd riemann-*
 mkdir /var/log/riemann
 nohup bin/riemann etc/riemann.config 2>&1 &
+popd
+
+pushd /tmp
+git clone https://github.com/satterly/python-riemann-client.git
+pushd python-riemann-client
+python setup.py install
+popd
+popd
 
 echo "Done!"
