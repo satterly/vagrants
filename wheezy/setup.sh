@@ -1,5 +1,8 @@
 #!/bin/bash
 
-sudo apt-get -y update
-sudo apt-get -y install git
+export DEBIAN_FRONTEND=noninteractive
+
+apt-get -y update
+apt-get -y dist-upgrade
+apt-get -y install git
 
