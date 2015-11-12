@@ -28,12 +28,10 @@ sudo make install
 popd
 
 apt-get -y install openjdk-7-jre python-pip
-pushd /opt
-wget -q http://aphyr.com/riemann/riemann-0.2.5.tar.bz2
-tar xvfj riemann-*.tar.bz2
-cd riemann-*
-mkdir /var/log/riemann
-nohup bin/riemann etc/riemann.config 2>&1 &
+pushd /var/tmp
+wget http://aphyr.com/riemann/riemann_0.2.5_all.deb
+dpkg -i riemann_0.2.5_all.deb
+service riemann start
 popd
 
 pushd /tmp
